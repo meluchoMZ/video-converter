@@ -1,0 +1,43 @@
+services:
+
+  compute-dependency:
+    build:
+      context: .
+      dockerfile: scripts/docker/compute-dependencies.Dockerfile
+    image: compute-dependency:centos9
+
+  compute-debug:
+    build:
+      context: .
+      dockerfile: scripts/docker/compute-dev.Dockerfile
+      args:
+        BUILD_TYPE: Debug
+    image: compute-debug:centos9
+    volumes:
+      - ccache:/root/.ccache
+    tty: true
+    stdin_open: true
+
+  compute-release:
+    build:
+      context: .
+      dockerfile: scripts/docker/compute-dev.Dockerfile
+      args:
+        BUILD_TYPE: Release
+    image: compute-release:centos9
+    volumes:
+      - ccache:/root/.ccache
+    tty: true
+    stdin_open: true
+
+  compute-runtime:
+    build:
+      context: .
+      dockerfile: scripts/docker/compute-runtime.Dockerfile
+    image: compute-runtime:latest
+    tty: true
+    stdin_open: true
+
+volumes:
+  ccache:
+
