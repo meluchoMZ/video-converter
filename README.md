@@ -28,5 +28,17 @@ on the debug or release compilations, or you can execute the production containe
 docker compose run --rm compute-runtime
 ```
 
-Contact: miguelgodon@outlook.es 
+# Testing instructions
+To execute unit tests compile the testing image with
 
+```
+docker compose build compute-test
+```
+
+and execute them with
+
+```
+docker compose run --rm compute-test
+```
+
+Contact: miguelgodon@outlook.es 

@@ -12,6 +12,7 @@ services:
       dockerfile: scripts/docker/compute-dev.Dockerfile
       args:
         BUILD_TYPE: Debug
+        BUILD_TESTS: ON
     image: compute-debug:centos9
     volumes:
       - ccache:/root/.ccache
@@ -24,17 +25,40 @@ services:
       dockerfile: scripts/docker/compute-dev.Dockerfile
       args:
         BUILD_TYPE: Release
+        BUILD_TESTS: OFF
     image: compute-release:centos9
     volumes:
       - ccache:/root/.ccache
     tty: true
     stdin_open: true
 
+  compute-test:
+    build:
+      context: .
+      dockerfile: scripts/docker/compute-dev.Dockerfile
+      args:
+        BUILD_TYPE: Release
+        BUILD_TESTS: ON
+    image: compute-test:centos9
+    volumes: 
+      - ccache:/root/.ccache
+    tty: true
+    stdin_open: true
+    command: bash -c "cd ./build/ && ctest"
+
   compute-runtime:
     build:
       context: .
       dockerfile: scripts/docker/compute-runtime.Dockerfile
-    image: compute-runtime:latest
+    image: compute-runtime:centos9
+    tty: true
+    stdin_open: true
+
+  compute-memcheck:
+    build:
+      context: .
+      dockerfile: scripts/docker/compute-memcheck.Dockerfile
+    image: compute-memcheck:centos9
     tty: true
     stdin_open: true
 
