@@ -1,4 +1,4 @@
-FROM compute-release:latest as release-build
+FROM compute-release:centos9 as release-build
 FROM quay.io/centos/centos:stream9
 
 WORKDIR /app
